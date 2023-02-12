@@ -17,14 +17,16 @@ function renderHeader() {
                 <input type="text" placeholder="Nhập vào đây để tìm kiếm..." class="search-input" autocomplete="off">
             </div>
         </div>
-        <div class="col header__search l-3 m-0 c-0">
-            <input type="text" name="" id="search-text" placeholder="Tìm kiếm tên phim ,tv shows..." autocomplete="off">
-            <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="col l-3 m-0 c-0">
+            <div class="header__search">
+                <input type="text" name="" id="search-text" placeholder="Tìm kiếm tên phim ,tv shows..." autocomplete="off">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            <div/>
         </div>
     </header>
     `
 }
-renderHeader.searchShow = function() {
+renderHeader.searchShow = function () {
     let inputSearch = document.querySelector('.drop-search')
     inputSearch.classList.toggle('hide')
     if (inputSearch.classList.contains('hide')) {
