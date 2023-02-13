@@ -1,0 +1,15 @@
+/* Tablet - PC low resolution */
+@media (min-width: 740px) and (max-width: 1023px) {
+    .wide {
+        width: 644px;
+    }
+    .footer__logo {
+        width: 255px;
+    }
+}
+/* Mobile*/
+@media (max-width: 739px) {
+    .about-we, .rules, .footer__info,.footer__logo {
+        margin-top: 10px;
+    }
+}

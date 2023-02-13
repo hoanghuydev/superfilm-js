@@ -30,6 +30,10 @@
     padding-left: 0;
     padding-right: 0;
 }
+.col.gutters-15 {
+    padding-left: 15px;
+    padding-right: 15px;
+}
 
 .c-0 {
     display: none;

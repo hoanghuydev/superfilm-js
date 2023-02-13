@@ -4,9 +4,11 @@
     margin: 0;
     padding: 0;
 }
+
 a {
     -webkit-tap-highlight-color: transparent;
 }
+
 html {
     font-size: 62.5%;
     line-height: 1.6rem;
@@ -18,30 +20,35 @@ body {
     margin: 0;
     background-color: #020D18;
     font-family: 'Inter', sans-serif;
+    position: relative;
 }
+
 ul {
     margin: 0;
 }
+
 .blur-text {
     color: #9B9B9B !important;
 }
+
 /* For Header Render */
 header {
     margin-top: 20px;
     height: 35px;
 }
-.category {
 
-}
-.category > i {
+.category {}
+
+.category>i {
     margin-left: 15px;
-    font-size: 35px;
+    font-size: 30px;
     color: white;
     line-height: 35px;
     text-align: center;
 }
+
 .header__logo--img {
-    height: 100%;
+    height: 32px;
     margin: auto;
 }
 
@@ -50,11 +57,13 @@ header {
     height: 100%;
 
 }
+
 .navbar__list {
     display: flex;
     justify-content: space-between;
     height: 100%;
 }
+
 .navbar__item {
     margin: auto;
     color: white;
@@ -66,15 +75,19 @@ header {
     line-height: 19px;
     text-align: center;
 }
+
 .search-icon {
     position: relative;
 }
-.search-icon > i {
+
+.search-icon>i {
+
     margin-left: 15px;
     color: white;
     font-size: 20px;
     line-height: 35px;
 }
+
 .header__search {
     background-color: black;
     display: flex;
@@ -84,7 +97,8 @@ header {
     padding-left: 5px !important;
     padding-right: 5px !important;
 }
-#search-text {  
+
+#search-text {
     background-color: transparent;
     color: rgb(209, 205, 205);
     font-size: 13px;
@@ -96,7 +110,8 @@ header {
     border: none;
     outline: none;
 }
-.header__search > i {
+
+.header__search>i {
     line-height: 35px;
     text-align: center;
     margin: auto;
@@ -104,6 +119,7 @@ header {
     font-size: 20px;
     color: white;
 }
+
 .drop-search {
     position: absolute;
     top: 100%;
@@ -120,58 +136,147 @@ header {
     z-index: 1000;
     overflow: hidden;
 }
+
 .drop-search.hide {
     transform-origin: top right;
     animation: fadeOutZoom ease-in 0.3s;
     opacity: 0;
     transform: scale(0);
 }
+
 .display-none {
     display: none;
 }
-.drop-search > .search-input {
+
+.drop-search>.search-input {
     width: 100%;
     height: 100%;
     margin: auto 0px auto 5px;
-    font-size: 16px;  
+    font-size: 16px;
     border: none;
     outline: none;
 }
 
+/* Of film item */
+.film__item {
+    color: white;
+    margin: 15px auto;
+}
+
+.film__poster {
+    position: relative;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+.film__status {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    width: 57px;
+    height: 23px;
+    background: #F06500;
+    border-radius: 5px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 23px;
+    text-align: center;
+}
+.film__poster--img {
+    width: 100%;
+    height: 100%;
+}
+.film__name {
+    margin-top: 10px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+}
+/* For footer */
+footer {
+    margin-top: 20px;
+}
+.footer__logo {
+    height: 127px;
+}
+.footer__logo--img {
+    width: 100%;
+    height: 100%;
+}
+.about-we, .rules, .mail,.flow-we {
+    color: #D7C9C9;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 200;
+    font-size: 13px;
+    line-height: 19px;
+}
+.about-we > p , .rules > p{
+    color: white;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+.mail__icon {
+    margin-right: 5px;
+}
+.flow-we {
+    margin-top: 10px;
+}
+.youtube-link,.facebook-link {
+    color: white;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.introduce:hover ,.contact:hover, .support:hover, .ads:hover,.youtube-link:hover,.facebook-link:hover,.privacy-policy:hover,.terms-of-use:hover {
+    color: #F06500;
+    cursor: pointer;
+}
 /* Keyframe */
 @keyframes fadeInZoom {
     from {
         opacity: 0;
         transform: scale(0);
     }
-    to { 
+
+    to {
         opacity: 1;
         transform: scale(1);
     }
 }
+
 @keyframes fadeOutZoom {
     from {
         opacity: 1;
         transform: scale(1);
     }
-    to { 
+
+    to {
         opacity: 0;
         transform: scale(0);
     }
 }
+
 @keyframes fadeIn {
     from {
         opacity: 0;
     }
-    to { 
+
+    to {
         opacity: 1;
     }
 }
+
 @keyframes fadeOut {
     from {
         opacity: 1;
     }
-    to { 
+
+    to {
         opacity: 0;
     }
 }

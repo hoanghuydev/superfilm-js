@@ -1,8 +1,12 @@
 .loader {
-    width: 100vw;
-    height: 100vh;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
     background-color: #020D18;
     display: flex;
+    z-index: 9999;
 }
 .loading-container {
     margin: auto;
