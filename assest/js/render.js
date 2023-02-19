@@ -3,18 +3,18 @@
 let appendElementChild = function (parentElement,elementChildString) {
     parentElement.appendChild(new DOMParser().parseFromString(elementChildString, 'text/html').body.lastElementChild)
 }
-function renderHeader() {
+function renderHeader(parentElement,currentPage) {
     let headerString = `
     <header class="row">
         <div class="col category l-0 m-0 c-2"><i class="fa-solid fa-bars"></i></div>
         <img src="assest/png/header-logo.png" alt="" class="col header__logo--img l-2 m-5 c-5">
         <div class="col navbar l-7 m-11 c-0">
             <ul class="navbar__list">
-                <li class="navbar__item l-2-4 ">Trang chủ</li>
-                <li class="navbar__item l-2-4 blur-text">Phim bộ</li>
-                <li class="navbar__item l-2-4 blur-text">Phim kẻ</li>
-                <li class="navbar__item l-2-4 blur-text">TV Shows</li>
-                <li class="navbar__item l-2-4 blur-text">Thể loại</li>
+                <a href="home.html" class="home navbar__item">Trang chủ</a>
+                <a href class="series-movie navbar__item">Phim bộ</a>
+                <a href class="odd-movie navbar__item">Phim lẻ</a>
+                <a href class="shows navbar__item">TV Shows</a>
+                <a href class="navbar__item">Thể loại</a>
             </ul>
         </div>
         <div class="col search-icon l-0 m-1 c-2" onClick="event.cancelBubble = true; renderHeader.searchShow()"><i class="fa-solid fa-magnifying-glass"></i>
@@ -30,7 +30,36 @@ function renderHeader() {
         </div>
     </header>
     `
-    appendElementChild($('.grid.wide'),headerString)
+    appendElementChild(parentElement,headerString)
+    // Lighten Nav Item
+    renderSeperator(parentElement) 
+    $(currentPage).classList.add('white-text')
+    // Category show
+    $('header > .category').onclick = function () {
+        $('.category-mobile-container').classList.toggle('show')
+        $('.category-mobile__content').classList.toggle('show')
+    }
+    
+    
+}
+function renderCategoryMobile(listCategory,currentPage) {
+    $('.category-mobile-container').innerHTML = `
+    <div class="category-mobile">
+        <div class="category-mobile__content">
+            <a href="home.html" class="category__item--home">Trang chủ</a>
+            <a href class="category__item--tv">TV Shows</a>
+        </div>
+        <div class="exit-category"></div>
+    </div>
+    `
+    for (var category of listCategory ) {
+        $('.category-mobile__content').innerHTML += `<a href="" class="category__item--${category.code}">${category.name}</a>`
+    }
+    $(currentPage).classList.add('current-category-item')
+    $('.exit-category').onclick = function () {
+        $('.category-mobile-container').classList.toggle('show')
+        $('.category-mobile__content').classList.toggle('show')
+    }
 }
 // Show input text for search
 renderHeader.searchShow = function () {
@@ -56,24 +85,32 @@ renderHeader.searching = function() {
     
 }
 // Render film item
-function renderFilmItem(parentElement) {
+function renderFilmItem(parentElement,filmInfo) {
     parentElement.innerHTML += `
     <div class="col gutters-15 l-2-4 m-4 c-4">
         <div class="film__item">
             <div class="film__poster">
-                <div class="film__status">Vietsub</div>
-                <img class= "film__poster--img" src="assest/png/poster.png" alt="Name of movie">
+                <div class="film__status">${filmInfo.language}</div>
+                <div href="" class="hidden-poster">
+                    <img class= "film__poster--img" src="${filmInfo.poster}" alt="Name of movie">
+                    <a href="film-info.html?filmID=${filmInfo.id}" class="poster-hover">
+                        <i class="fa-regular fa-circle-play"></i>
+                    </a>
+                </div>
+                
             </div>
             
-            <div class="film__name">Name of this film</div>
+            <div class="film__name">${filmInfo.title}</div>
         </div>
     </div>
     `
+    
 }
 
 
 // Render Footer
-function renderFooter() {
+function renderFooter(parentElement) {
+    renderSeperator(parentElement)
     let footerString = `
     <footer>
         <div class="row">
@@ -113,7 +150,7 @@ function renderFooter() {
         </div>
     </footer>
     `
-    appendElementChild($('.grid.wide'),footerString)
+    appendElementChild(parentElement,footerString)
 }
 // Render loader
 function renderLoader(parentElement) {
@@ -130,4 +167,31 @@ function renderLoader(parentElement) {
     </div>
     `
     appendElementChild(parentElement,loaderString)
+}
+function renderSeperator(parentElement) {
+    parentElement.innerHTML +=`<div class="seperator"></div>`
+
+}
+function renderCategoryFilm(parentElement,categoryName,categoryListFilm,numFilm) {
+    let categoryFilmString = `
+    <div class="category-film">
+        <div class="category__header">
+            <div class="category__title">${categoryName}</div>
+            <a href class="see-all">Xem thêm</a>
+        </div>
+        <div class="category__container ">
+            <div class="row ${categoryName.replaceAll(' ','-')}">
+            </div>
+        </div>
+    </div>
+    `
+    appendElementChild(parentElement,categoryFilmString)
+    var count = 0
+    for (var film of categoryListFilm) {
+        count++
+        renderFilmItem($(`.${categoryName.replaceAll(' ','-')}`),film)
+        if (count==numFilm) {
+            break
+        }
+    }
 }

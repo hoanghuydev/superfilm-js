@@ -23,12 +23,27 @@ body {
     position: relative;
 }
 
+.btn {
+    width: fit-content;
+    padding: 10px 20px;
+    background-color: #F06500;
+    border-radius: 6px;
+}
+.btn:hover {
+    cursor: pointer;
+    opacity: 0.9;
+}
+.seperator {
+    width: 100%;
+    height: 0.7px;
+    background-color: white;
+    margin: 20px 0;
+}
 ul {
     margin: 0;
 }
-
-.blur-text {
-    color: #9B9B9B !important;
+.white-text {
+    color: white !important;
 }
 
 /* For Header Render */
@@ -41,12 +56,59 @@ header {
 
 .category>i {
     margin-left: 15px;
-    font-size: 30px;
+    font-size: 25px;
     color: white;
     line-height: 35px;
     text-align: center;
 }
+/* For category mobile */
+.category-mobile-container {
+    position: fixed;
+    visibility: hidden;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    transition: all 0.1s;
+}
+.category-mobile-container.show {
+   visibility: visible;
+}
 
+.category-mobile {
+    width: 100%;
+    height: 100%;
+    display: flex;
+   
+}
+.category-mobile__content {
+    overflow: auto;
+    width: 250px;
+    background-color: #1f1f1f;
+    display: flex;
+    flex-direction: column;
+    animation: fadeOutRightToLeft ease-in 0.3s;
+    transition: all 0.2s;
+}
+.category-mobile__content.show {
+    animation: fadeInLeftToRight ease-in 0.3s;
+}
+.category-mobile__content > a {
+    padding : 15px 0 15px 30px;
+    font-size: 14px;
+    text-decoration: none;
+    color: #a6a6a6;
+}
+.current-category-item, .category-mobile__content > a:hover {
+    color: #F06500 !important;
+}
+.exit-category {
+    flex: 1;
+    background-color: rgba(0, 0, 0, 0.25);
+    animation: fadeIn ease-in 0.5s;
+
+}
 .header__logo--img {
     height: 32px;
     margin: auto;
@@ -66,7 +128,7 @@ header {
 
 .navbar__item {
     margin: auto;
-    color: white;
+    color: #9B9B9B;
     list-style: none;
     font-family: 'Inter';
     font-style: normal;
@@ -74,6 +136,7 @@ header {
     font-size: 16px;
     line-height: 19px;
     text-align: center;
+    text-decoration: none;
 }
 
 .search-icon {
@@ -167,13 +230,13 @@ header {
     position: relative;
     box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
+    overflow: hidden;
 }
 .film__status {
     position: absolute;
     top: 8px;
-    left: 12px;
-    width: 57px;
-    height: 23px;
+    left: 12px; 
+    padding: 5px 10px;
     background: #F06500;
     border-radius: 5px;
     font-family: 'Inter';
@@ -182,10 +245,38 @@ header {
     font-size: 12px;
     line-height: 23px;
     text-align: center;
+    z-index: 10;
+    user-select: none;
+}
+.hidden-poster {
+    position: relative;
+}
+
+.poster-hover {
+    position:absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    display: flex;
+    animation: fadeOut ease-in 0.2s;
+    color: white;
+    text-decoration: none;
+}
+.poster-hover > i {
+    margin: auto;
+    font-size: 35px;
 }
 .film__poster--img {
     width: 100%;
-    height: 100%;
+    height: auto;
+}
+.poster-hover:hover {
+    animation: fadeIn ease-in 0.3s;
+    opacity: 1;
+    cursor: pointer;
 }
 .film__name {
     margin-top: 10px;
@@ -193,14 +284,16 @@ header {
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
-    line-height: 16px;
+    line-height: 19px;
 }
 /* For footer */
 footer {
-    margin-top: 20px;
+    margin: 20px 0px;
 }
 .footer__logo {
-    height: 127px;
+    width: 80%;
+    height: 110px;
+    margin-bottom: 20px;
 }
 .footer__logo--img {
     width: 100%;
@@ -221,6 +314,7 @@ footer {
 }
 
 .mail__icon {
+    font-size: 15px;
     margin-right: 5px;
 }
 .flow-we {
@@ -232,11 +326,63 @@ footer {
     margin-right: 10px;
 }
 
-.introduce:hover ,.contact:hover, .support:hover, .ads:hover,.youtube-link:hover,.facebook-link:hover,.privacy-policy:hover,.terms-of-use:hover {
+.introduce:hover ,.contact:hover, .support:hover, .ads:hover,.youtube-link:hover,.facebook-link:hover,.privacy-policy:hover,.terms-of-use:hover, .category__header > .see-all:hover {
     color: #F06500;
     cursor: pointer;
 }
+
+/* Category View Film */
+.category-film {
+    margin-top: 20px;
+}
+.category__header {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+.category__title {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px
+}
+.see-all {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 13px;
+    text-decoration: none;
+    color: white;
+    line-height: 33px;
+}
+.category__container {
+
+}
+.row {
+
+}
 /* Keyframe */
+@keyframes fadeInLeftToRight {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+@keyframes fadeOutRightToLeft {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+}
 @keyframes fadeInZoom {
     from {
         opacity: 0;

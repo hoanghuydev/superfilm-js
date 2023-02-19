@@ -1,15 +1,38 @@
+
+/* Tablet and Mobile */
+@media (max-width : 1023px) {
+    
+}
 /* Tablet - PC low resolution */
 @media (min-width: 740px) and (max-width: 1023px) {
-    .wide {
-        width: 644px;
+    .footer__logo {
+        width: 255px;
+    }
+    header{
+        margin-bottom: 45px;
+    }
+}
+    
+/* Mobile*/
+@media (max-width: 739px) {
+    .footer {
+    margin-left: 5px;
+}
+    .about-we, .rules, .footer__info,.footer__logo {
+        margin-top: 10px;
+    }
+    .category__title {
+        font-size: 18px;
+    }
+    .film__item > .film__name , .see-all{
+        font-size: 13px;
+        line-height: 15px;
     }
     .footer__logo {
         width: 255px;
     }
-}
-/* Mobile*/
-@media (max-width: 739px) {
-    .about-we, .rules, .footer__info,.footer__logo {
-        margin-top: 10px;
+    .film__status {
+        font-size: 8px;
+        padding: 2px 4px;
     }
 }

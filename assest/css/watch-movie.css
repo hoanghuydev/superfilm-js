@@ -1,0 +1,16 @@
+/* Tablet and Mobile */
+@media (max-width : 1023px) {
+    div.gutters-15:last-child{
+        display: none;
+    }
+}
+/* Tablet - PC low resolution */
+@media (min-width: 740px) and (max-width: 1023px) {
+    
+}
+    
+/* Mobile*/
+@media (max-width: 739px) { 
+    
+
+}
