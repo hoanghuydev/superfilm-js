@@ -10,7 +10,7 @@ function renderHeader(parentElement,currentPage,listCategory) {
         <img src="assest/png/header-logo.png" alt="" class="col header__logo--img l-2 m-5 c-5">
         <div class="col navbar l-7 m-11 c-0">
             <ul class="navbar__list">
-                <a href="home.html" class="home navbar__item">Trang chủ</a>
+                <a href="index.html" class="home navbar__item">Trang chủ</a>
                 <a href="category.html?categoryID=2"} class="series-movie navbar__item">Phim bộ</a>
                 <a href="category.html?categoryID=1" class="odd-movie navbar__item">Phim lẻ</a>
                 <a href class="shows navbar__item">TV Shows</a>
@@ -51,7 +51,7 @@ function renderCategoryMobile(listCategory,currentPage) {
     $('.category-mobile-container').innerHTML = `
     <div class="category-mobile">
         <div class="category-mobile__content">
-            <a href="home.html" class="category__item--home">Trang chủ</a>
+            <a href="index.html" class="category__item--home">Trang chủ</a>
             <a href class="category__item--tv">TV Shows</a>
         </div>
         <div class="exit-category"></div>
