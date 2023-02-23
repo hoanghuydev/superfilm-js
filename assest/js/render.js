@@ -3,7 +3,7 @@
 let appendElementChild = function (parentElement,elementChildString) {
     parentElement.appendChild(new DOMParser().parseFromString(elementChildString, 'text/html').body.lastElementChild)
 }
-function renderHeader(parentElement,currentPage) {
+function renderHeader(parentElement,currentPage,listCategory) {
     let headerString = `
     <header class="row">
         <div class="col category l-0 m-0 c-2"><i class="fa-solid fa-bars"></i></div>
@@ -11,10 +11,11 @@ function renderHeader(parentElement,currentPage) {
         <div class="col navbar l-7 m-11 c-0">
             <ul class="navbar__list">
                 <a href="home.html" class="home navbar__item">Trang chủ</a>
-                <a href class="series-movie navbar__item">Phim bộ</a>
-                <a href class="odd-movie navbar__item">Phim lẻ</a>
+                <a href="category.html?categoryID=2"} class="series-movie navbar__item">Phim bộ</a>
+                <a href="category.html?categoryID=1" class="odd-movie navbar__item">Phim lẻ</a>
                 <a href class="shows navbar__item">TV Shows</a>
-                <a href class="navbar__item">Thể loại</a>
+                <div class="nav-category navbar__item">Thể Loại
+                <div class="category-drop"></div></div>
             </ul>
         </div>
         <div class="col search-icon l-0 m-1 c-2" onClick="event.cancelBubble = true; renderHeader.searchShow()"><i class="fa-solid fa-magnifying-glass"></i>
@@ -31,6 +32,10 @@ function renderHeader(parentElement,currentPage) {
     </header>
     `
     appendElementChild(parentElement,headerString)
+   
+    for (var category of listCategory ) {
+        appendElementChild($('.category-drop'),`<a href="category-movie.html?categoryID=${category.id}" class="the-loai__item">${category.name}</a>`)
+    }
     // Lighten Nav Item
     renderSeperator(parentElement) 
     $(currentPage).classList.add('white-text')
@@ -53,7 +58,7 @@ function renderCategoryMobile(listCategory,currentPage) {
     </div>
     `
     for (var category of listCategory ) {
-        $('.category-mobile__content').innerHTML += `<a href="" class="category__item--${category.code}">${category.name}</a>`
+        $('.category-mobile__content').innerHTML += `<a href="category-movie.html?categoryID=${category.id}" class="category__item--${category.code}">${category.name}</a>`
     }
     $(currentPage).classList.add('current-category-item')
     $('.exit-category').onclick = function () {
@@ -87,11 +92,11 @@ renderHeader.searching = function() {
 // Render film item
 function renderFilmItem(parentElement,filmInfo) {
     parentElement.innerHTML += `
-    <div class="col gutters-15 l-2-4 m-4 c-4">
+    <div class="col gutters-15 l-2-4 m-4 c-4 s-6">
         <div class="film__item">
             <div class="film__poster">
                 <div class="film__status">${filmInfo.language}</div>
-                <div href="" class="hidden-poster">
+                <div class="hidden-poster">
                     <img class= "film__poster--img" src="${filmInfo.poster}" alt="Name of movie">
                     <a href="film-info.html?filmID=${filmInfo.id}" class="poster-hover">
                         <i class="fa-regular fa-circle-play"></i>
@@ -104,7 +109,6 @@ function renderFilmItem(parentElement,filmInfo) {
         </div>
     </div>
     `
-    
 }
 
 
@@ -167,31 +171,57 @@ function renderLoader(parentElement) {
     </div>
     `
     appendElementChild(parentElement,loaderString)
+   parentElement.style.overflow = 'hidden'
 }
 function renderSeperator(parentElement) {
     parentElement.innerHTML +=`<div class="seperator"></div>`
 
 }
-function renderCategoryFilm(parentElement,categoryName,categoryListFilm,numFilm) {
-    let categoryFilmString = `
-    <div class="category-film">
-        <div class="category__header">
-            <div class="category__title">${categoryName}</div>
-            <a href class="see-all">Xem thêm</a>
-        </div>
-        <div class="category__container ">
-            <div class="row ${categoryName.replaceAll(' ','-')}">
+async function renderCategoryFilm(parentElement,category,numItem,canEdit,editTitle) {
+    var categoryListFilm = await fetch(getAPI.getCategories(category.id,0,'publishYear','decs',numItem)).then((value) => value.json())
+
+    categoryListFilm = categoryListFilm.content
+    var titleCategory = (canEdit)? editTitle:category.name
+    if (categoryListFilm.length > 4) {
+        let categoryFilmString = `
+        <div class="category-film">
+            <div class="category__header">
+                <div class="category__title">Phim ${titleCategory}</div>
+                <a href class="see-all">Xem thêm</a>
+            </div>
+            <div class="category__container ">
+                <div class="row ${titleCategory.replaceAll(' ','-')}">
+                </div>
             </div>
         </div>
-    </div>
-    `
-    appendElementChild(parentElement,categoryFilmString)
-    var count = 0
-    for (var film of categoryListFilm) {
-        count++
-        renderFilmItem($(`.${categoryName.replaceAll(' ','-')}`),film)
-        if (count==numFilm) {
-            break
+        `
+        appendElementChild(parentElement,categoryFilmString)
+        for (var film of categoryListFilm) {
+            renderFilmItem($(`.${titleCategory.replaceAll(' ','-')}`),film)
         }
     }
+    
+}
+function renderPagination(parentElement) {
+    parentElement.innerHTML += `
+    <div class="pagination">
+      <a href="#">&laquo;</a>
+      <a href="#">1</a>
+      <a href="#" class="active">2</a>
+      <a href="#">3</a>
+      <a href="#">4</a>
+      <a href="#">5</a>
+      <a href="#">6</a>
+      <a href="#">&raquo;</a>
+    </div>
+    `
+}
+function hideLoader() {
+    if ($('.loader')) {
+        setTimeout(() => {
+            $('.loader').style.display = 'none'
+            
+        }, 500);
+    }
+    $('body').style.overflow = 'auto'
 }

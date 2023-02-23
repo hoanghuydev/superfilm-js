@@ -19,17 +19,19 @@
     <link rel="stylesheet" href="assest/css/responsive.css">
     <link rel="stylesheet" href="assest/css/home.css">
 
+
     <title class="titlePage">Siêu phim | Xem phim siêu hay và siêu mượt</title>
 
 </head>
 <div class="category-mobile-container">
-       
+
 </div>
+
 <body>
-    
+
     <div class="grid wide">
         <div class="header">
-        
+
             <!-- render header -->
         </div>
         <div class="films">
@@ -39,24 +41,34 @@
             <!-- render  footer-->
         </div>
     </div>
+
     <script src="assest/js/main.js"></script>
+    <script src="assest/js/fetchAPI.js"></script>
     <script src="assest/js/render.js"></script>
     <script>
-        renderLoader($('body'))
-        // For Heaader Render
-        renderHeader($('.grid.wide > .header'),'.home')
-        renderCategoryMobile(listCategory,'.category__item--home')
-        // block scroll when loading
-        $('body').style.overflow = 'hidden'
-        renderCategoryFilm($('.grid.wide > .films'),'Phim hành động',listFilm,5)
-        renderCategoryFilm($('.grid.wide > .films'),'Phim phiêu lưu',listFilm,5)
-        renderCategoryFilm($('.grid.wide > .films'),'Phim tình cảm',listFilm,5)
-        renderFooter($('.grid.wide > .footer'))
-        setTimeout(function () {
-            // hide loader
-            $('.loader').style.display = 'none'
-            $('body').style.overflow = 'auto'
-        },1500)
+        start()
+        async function start() {
+            renderLoader($('body'))
+            await Promise.all([
+                fetch(getAPI.allActor).then((value) => value.json()),
+                fetch(getAPI.allCategory).then((value) => value.json()),
+            ])
+                .then((value) => {
+                    const listActor = value[0]
+                    const listCategory = value[1]
+                    renderHeader($('.grid.wide > .header'), '.home', listCategory)
+                    renderCategoryMobile(listCategory, '.category__item--home')
+                    for (var i in listCategory) {
+                        renderCategoryFilm($('.grid.wide > .films'), listCategory[i],5,false,null)
+                    }
+                    // block scroll when loading
+                    renderFooter($('.grid.wide > .footer'))
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+            hideLoader()}
+
     </script>
 </body>
 

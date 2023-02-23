@@ -1,0 +1,29 @@
+#category-select,#year-select,#sort-select {
+    background-color: #505050;
+    color: white;
+    width: 100%;
+    height: 40px;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+.btn-filter {
+    font-size: 13px;
+    margin: auto;
+}
+@media (max-width : 1023px) {
+
+}
+/* Tablet - PC low resolution */
+@media (min-width: 740px) and (max-width: 1023px) {
+    
+}
+    
+/* Mobile*/
+@media (max-width: 739px) { 
+    .btn-filter {
+        margin: 10px auto;
+    }
+
+}

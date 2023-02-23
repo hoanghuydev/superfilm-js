@@ -1,18 +1,19 @@
-const domain = 'https://film-web-api.azurewebsites.net'
+const domain = 'http://filmapi-env.eba-xjdcedf7.ap-southeast-1.elasticbeanstalk.com'
+let valueFetch = []
 const getAPI = {
     allFilm : domain+ '/api/v1/films/all',
     detailFilm : function (id) {
         return domain +  `/api/v1/films/${id}`
     },
-    getFilm : function (page,sortedBy,director,limi) {
-       return domain + `/api/v1/films?page=${page}&sortedBy=${sortedBy}&director=${director}&limi=${limi}`
+    getFilm : function (page,sortedBy,director,limit) {
+       return domain + `/api/v1/films?page=${page}&sortedBy=${sortedBy}&director=${director}&limi=${limit}`
     },
-    getCategories : function (categories,page,sortedBy,director,limi) {
-        return domain + `/api/v1/films/categories/${categoryId}?page=${page}&sortedBy=${sortedBy}&director=${director}&limi=${limi}`
+    getCategories : function (categoryId,page,sortedBy,director,limit) {
+        return domain + `/api/v1/films/categories/${categoryId}?page=${page}&sortedBy=${sortedBy}&director=${director}&limit=${limit}`
     },
     allCategory :domain + '/api/v1/categories',
     detailCategory : function (id) {
-        return `/api/v1/categories/${id}`
+        return domain + `/api/v1/categories/${id}`
     },
     allActor : domain + '/api/v1/actors',
     allCountries : domain + '/api/v1/film-countries',
@@ -22,9 +23,7 @@ const getAPI = {
 }
 function fetchAPI(url) {
    fetch(url) 
-    .then (function(result) {
-        return result.json()
-    })
+    .then ((value) => {value.json()})
 }
 function fecthCategoryFilm() {
 
@@ -32,3 +31,4 @@ function fecthCategoryFilm() {
 function fecthFilmOfCategory(categoryCode) {
 
 }
+

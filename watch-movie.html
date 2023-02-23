@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="assest/png/shortcutPage.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,6 +30,9 @@
         <div class="container">
             <div class="watch-movie">
                 <!-- render info film -->
+               
+
+                
             </div>
             <div class="related__films">
                 <!-- render related films -->
@@ -41,19 +47,33 @@
     <script src="assest/js/render.js"></script>
     <script src="assest/js/renderWatchMovie.js"></script>
     <script>
-        renderLoader($('body'))
-        // For Heaader Render
-        renderHeader($('.grid.wide > .header'),'.home')
-        renderCategoryMobile(listCategory,'.category__item--home')
-        // block scroll when loading
-        $('body').style.overflow = 'hidden'
-        renderCategoryFilm($('.related__films'),'Nội dung liên quan',listFilm,10)
-        renderFooter($('.grid.wide > .footer'))
-        setTimeout(function () {
-            // hide loader
-            $('.loader').style.display = 'none'
-            $('body').style.overflow = 'auto'
-        },1500)
+        start()
+        async function start() {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const filmID = urlParams.get('filmID')
+            const episode = urlParams.get('episode')
+            renderLoader($('body'))
+            await Promise.all([
+                fetch(getAPI.detailFilm(filmID)).then((value) => value.json()),
+                fetch(getAPI.allCategory).then((value) => value.json()),
+
+            ])
+                .then((value) => {
+                    const filmInfo = value[0]
+                    const listCategory = value[1]
+                    renderHeader($('.grid.wide > .header'), '.home',listCategory)
+                    renderCategoryMobile(listCategory, '.category__item--home')
+                    renderWatchFilm($('.container > .watch-movie'),filmInfo,episode)
+                    renderCategoryFilm($('.container > .related__films'), filmInfo.categories[1],5,true,"liên quan")
+                    // block scroll when loading
+                    renderFooter($('.grid.wide > .footer'))
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+            hideLoader()
+        }
     </script>
 </body>
 </html>

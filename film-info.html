@@ -23,7 +23,6 @@
 
 <body>
     <div class="category-mobile-container">
-       
     </div>
     <div class="grid wide">
         <div class="header">
@@ -46,21 +45,34 @@
     <script src="assest/js/render.js"></script>
     <script src="assest/js/renderFilmInfoPage.js"></script>
     <script>
-        renderLoader($('body'))
-        renderHeader($('.grid.wide > .header'),'.home')
-        renderCategoryMobile(listCategory,'.category__item--home')
-        renderInfoFilmPage($('.container > .film__info'))
-        // Render related movie
-        renderCategoryFilm($('.related__films'),'Nội dung liên quan',listFilm,10)
-        // block scroll when loading
-        $('body').style.overflow = 'hidden'
-        renderFooter($('.grid.wide > .footer'))
-        // hide loader
-        setTimeout(function () {
-            $('.loader').style.display = 'none'
-            $('body').style.overflow = 'auto'
-        }, 1500)
+        start()
+        async function start() {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const filmID = urlParams.get('filmID')
+            renderLoader($('body'))
+            await Promise.all([
+                fetch(getAPI.detailFilm(filmID)).then((value) => value.json()),
+                fetch(getAPI.allCategory).then((value) => value.json()),
 
+            ])
+                .then((value) => {
+                    const filmInfo = value[0]
+                    const listCategory = value[1]
+                    renderHeader($('.grid.wide > .header'), '.home',listCategory)
+                    renderCategoryMobile(listCategory, '.category__item--home')
+                    renderInfoFilmPage($('.container > .film__info'),filmInfo)
+                    renderCategoryFilm($('.container > .related__films'), filmInfo.categories[1],5,true,"liên quan")
+                    // block scroll when loading
+                    renderFooter($('.grid.wide > .footer'))
+            
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+            hideLoader()
+        }
+        
     </script>
 </body>
 

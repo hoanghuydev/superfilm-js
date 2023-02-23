@@ -45,6 +45,26 @@
     left: 56px;
     animation-delay: 0;
   }
+  .pagination {
+    display: inline-block;
+  }
+  
+  .pagination a {
+    color: rgb(255, 255, 255);
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+  }
+  
+  .pagination a.active {
+    background-color: #F06500;
+    color: white;
+    border: 1px solid #F06500;
+  }
+  
+  .pagination a:hover:not(.active) {background-color: #ff8025bc;}
   @keyframes lds-facebook {
     0% {
       top: 8px;

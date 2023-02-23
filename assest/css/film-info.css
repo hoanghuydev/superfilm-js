@@ -12,6 +12,7 @@
 .film__poster-main {
     width: 240px;
     height: 300px;
+    user-select: none;
 
 }
 .film__text-info {
@@ -20,7 +21,7 @@
 }
 
 .film__text-info > div {
-    font-size: 16px;
+    font-size: 15px;
     margin-bottom: 10px;
 }
 .film__text-info > div:first-child {
@@ -47,6 +48,10 @@
     font-weight: 200;
     font-size: 15px;
     text-decoration: underline;
+}
+.btn-watch-movie > a {
+    color: white;
+    font-size: 16px;
 }
 .details__title, .film__trailer {
     font-weight: 600;

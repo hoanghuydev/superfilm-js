@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assest/png/shortcutPage.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assest/font/fontawesome-free-6.2.0-web/css/all.css">
+    <link rel="stylesheet" href="assest/css/loader.css">
+    <link rel="stylesheet" href="assest/css/category-movie.css">
+    <link rel="stylesheet" href="assest/css/global.css">
+    <link rel="stylesheet" href="assest/css/grid.css">
+    <link rel="stylesheet" href="assest/css/responsive.css">
+    <title class="titlePage">Category movie</title>
+</head>
+
+<body>
+    <div class="category-mobile-container">
+
+    </div>
+    <div class="grid wide">
+        <div class="header">
+            <!-- render header -->
+        </div>
+        <div class="container">
+            <div class="category-movie-select">
+                <div class="row">
+                    <div class="col l-11 m-10 c-12">
+                        <div class="row">
+                            <div class="col l-4 m-4 c-4">
+                                <div class="select-category">
+                                    <select name="category" id="category-select">
+                                        <option value="">-- Danh mục --</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col l-4 m-4 c-4">
+                                <div class="select-year">
+                                    <select name="year" id="year-select">
+                                        <option value="">-- Năm sx --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col l-4 m-4 c-4">
+                                <div class="select-sort">
+                                    <select name="sort" id="sort-select">
+                                        <option value="">-- Sắp xếp --</option>
+                                        <option value="2">Theo tên</option>
+                                        <option value="3">Theo năm</option>
+                                        <option value="4"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l-1 m-2 c-12">
+                        <div class="btn btn-filter">Lọc</div>
+                    </div>
+                </div>
+            </div>
+            <div class="movie-of-category">
+                <!-- render related films -->
+            </div>
+            <div class="pagination">
+
+            </div>
+        </div>
+        <div class="footer">
+            <!-- render footer -->
+        </div>
+    </div>
+    <script src="assest/js/main.js"></script>
+    <script src="assest/js/fetchAPI.js"></script>
+    <script src="assest/js/render.js"></script>
+    <script src="assest/js/renderCategoryMovie.js"></script>
+    <script>
+        start()
+        async function start() {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const categoryID = urlParams.get('categoryID')
+            console.log(getAPI.detailCategory(categoryID));
+            renderLoader($('body'))
+            await fetch(getAPI.detailCategory(categoryID)).then((value) => value.json())
+                .then((value) => {
+                    const detailCategory = value
+                    console.log(detailCategory);
+                    renderHeader($('.grid.wide > .header'), '.home', listCategory)
+                    renderCategoryMobile(listCategory, '.category__item--home')
+                    renderCategoryFilm($('.container > .movie-of-category'), detailCategory, 10, false, null)
+                    renderSelectFilter($('#category-select',$('#year-select'),$('#select-sort')))
+                    renderFooter($('.grid.wide > .footer'))
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+            hideLoader()
+        }
+
+    </script>
+</body>
+
+</html>
