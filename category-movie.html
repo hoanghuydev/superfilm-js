@@ -37,7 +37,7 @@
                             <div class="col l-4 m-4 c-4">
                                 <div class="select-category">
                                     <select name="category" id="category-select">
-                                        <option value="">-- Danh mục --</option>
+                                        <option value="0">-- Danh mục --</option>
                                         
                                     </select>
                                 </div>
@@ -45,17 +45,17 @@
                             <div class="col l-4 m-4 c-4">
                                 <div class="select-year">
                                     <select name="year" id="year-select">
-                                        <option value="">-- Năm sx --</option>
+                                        <option value="0">-- Năm sx --</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col l-4 m-4 c-4">
                                 <div class="select-sort">
                                     <select name="sort" id="sort-select">
-                                        <option value="">-- Sắp xếp --</option>
-                                        <option value="2">Theo tên</option>
-                                        <option value="3">Theo năm</option>
-                                        <option value="4"></option>
+                                        <option value="0">-- Sắp xếp --</option>
+                                        <option value="title">Theo tên</option>
+                                        <option value="publicYear">Theo năm</option>
+                                        
                                     </select>
                                 </div>
                             </div>
@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="movie-of-category">
-                <!-- render related films -->
+                <!-- render films -->
             </div>
             <div class="pagination">
 
@@ -87,22 +87,52 @@
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             const categoryID = urlParams.get('categoryID')
-            console.log(getAPI.detailCategory(categoryID));
+            try {
+                var titleSearch = urlParams.get('titleSearch')
+            } catch (error) {
+                var titleSearch = undefined
+            }
+
             renderLoader($('body'))
-            await fetch(getAPI.detailCategory(categoryID)).then((value) => value.json())
+            await Promise.all([
+                fetch(getAPI.detailCategory(categoryID)).then((value) => value.json()),
+                fetch(getAPI.allCategory).then((value) => value.json()),
+
+            ])
                 .then((value) => {
-                    const detailCategory = value
-                    console.log(detailCategory);
+                    const detailCategory = value[0]
+                    const listCategory = value[1]
                     renderHeader($('.grid.wide > .header'), '.home', listCategory)
                     renderCategoryMobile(listCategory, '.category__item--home')
-                    renderCategoryFilm($('.container > .movie-of-category'), detailCategory, 10, false, null)
+                    if (titleSearch) {
+                        fetch(getAPI.getItemSearch(titleSearch,9999999)).then((value) => value.json())
+                        .then((value) => {
+                            renderCategoryFilm($('.container > .movie-of-category'), undefined, value.content.length,true , 'với từ khóa '+titleSearch,0,value)
+                        })
+                        
+                    } else {
+                        renderCategoryFilm($('.container > .movie-of-category'), detailCategory, 9999999, false, null,0)
+                    }
+                    
                     renderSelectFilter($('#category-select',$('#year-select'),$('#select-sort')))
                     renderFooter($('.grid.wide > .footer'))
+                    $('.btn-filter').onclick = function () {
+                fetch(getAPI.getFilterItem(($('#category-select').value)?Number($('#category-select').value):0,($('#year-select').value)?Number($('#year-select').value):0,0,($('#sort-select').value)?$('#sort-select').value:0,'decs',999999999))
+                .then((value) => value.json())
+                .then((value) => {
+                    $('.movie-of-category').remove()
+                    for (var film of value) {
+                        renderFilmItem( $('.movie-of-category'),film)
+                    }
+                })
+                
+            }
                 })
                 .catch((err) => {
-                    console.log(err);
+                    // window.location.href= 'error-404.html'
                 })
             hideLoader()
+            
         }
 
     </script>

@@ -22,7 +22,7 @@
 
 .film__text-info > div {
     font-size: 15px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 .film__text-info > div:first-child {
     font-size: 40px;
@@ -84,6 +84,15 @@
     }
     div.gutters-15:last-child{
         display: none;
+    }
+    div.gutters-15:nth-child(4), div.gutters-15:nth-child(5){
+        display: none;
+    }
+}
+@media (max-width : 480px) {
+
+    div.gutters-15:nth-child(4){
+        display: flex;
     }
 }
 /* Tablet - PC low resolution */

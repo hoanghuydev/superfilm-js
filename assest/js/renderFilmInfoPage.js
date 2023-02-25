@@ -4,7 +4,6 @@ function renderInfoFilmPage(parentElement,filmData) {
     
 }
 renderInfoFilmPage.renderFilmInfo = function (parentElement,filmData) {
-    
     let infoFilmView = `
     <div class="film-info__header">
         <div class="poster-div">
@@ -17,7 +16,7 @@ renderInfoFilmPage.renderFilmInfo = function (parentElement,filmData) {
                     <i class="fa-solid fa-tag"></i>
                 </div>
             </div>
-            <div  class="btn btn-watch-movie"><a href="watch-movie.html?filmID=${filmData.id}&episode=${filmData.sourceFilms[0].episode}">Xem phim</a></div>
+            <div  class="btn-watch-movie"><a class="btn" href="watch-movie.html?filmID=${filmData.id}&episode=${filmData.sourceFilms[0].episode}">Xem phim</a></div>
             <div class="film__author">Đạo diễn : ${(filmData.director)? filmData.director.name:"Unknow"}</div>
             <div class="film__status-text">Trạng thái : ${filmData.quality} - ${filmData.language}</div>
             <div class="film__actor">Diễn viên : ${(filmData.actors[0])? filmData.actors[0].name:"Unknow"}</div>
@@ -38,20 +37,11 @@ renderInfoFilmPage.renderFilmInfo = function (parentElement,filmData) {
     // render tag name
     for (var index in filmData.categories) {
         if (index==0) {
-            $('.tag-film').innerHTML += `<a href="" class="tag__text">${filmData.categories[index].name} </a>`
+            $('.tag-film').innerHTML += `<a href="category-movie.html?categoryID=${filmData.categories[index].id}" class="tag__text">${filmData.categories[index].name} </a>`
         } else {
-            $('.tag-film').innerHTML += `<a href="" class="tag__text"> , ${filmData.categories[index].name} </a>`
+            $('.tag-film').innerHTML += `<a href="category-movie.html?categoryID=${filmData.categories[index].id}" class="tag__text"> , ${filmData.categories[index].name} </a>`
         }
 
-        
-    }
-    // render actor 
-    for (var index in filmData.actors) {
-        if (index==0) {
-            $('.film__actor').innerText +=filmData.actors[index].name
-        } else {
-            $('.film__actor').innerText += ", "+filmData.actors[index].name
-        }
         
     }
     

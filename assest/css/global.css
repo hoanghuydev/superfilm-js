@@ -8,8 +8,8 @@
 a {
     -webkit-tap-highlight-color: transparent;
     text-decoration: none;
+    color: white;
 }
-
 html {
     font-size: 62.5%;
     line-height: 1.6rem;
@@ -182,7 +182,7 @@ header {
     text-align: center;
     text-decoration: none;
 }
-.navbar__item:hover {
+.navbar__item:hover, .see-hint__link:hover , .hint__link:hover  {
     color: #F06500;
 }
 .nav-category {
@@ -229,6 +229,7 @@ header {
 }
 
 .header__search {
+    position: relative;
     background-color: black;
     display: flex;
     height: 100%;
@@ -250,6 +251,11 @@ header {
     border: none;
     outline: none;
 }
+.header__search > input:focus .hint-search{
+    background-color:  white !important;
+    /* display: flex !important; */
+}
+
 
 .header__search>i {
     line-height: 35px;
@@ -259,7 +265,60 @@ header {
     font-size: 20px;
     color: white;
 }
-
+.header__search>i:hover {
+    cursor: pointer;
+    color: #F06500;
+}
+.hint-search {
+    z-index: 100;
+    position: absolute;
+    top: 101%;
+    left: 0;
+    right: 0;
+    overflow: auto;
+    background-color: #202020;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+.hint__item{
+    display: flex;
+    margin: 7px 10px;
+}
+.hint__item > a {
+    display: flex;
+}
+.hint__item-link:hover .hint-item__title {
+    color: #F06500;
+}
+.hint-item__img {
+    width: 50px;
+    height: 60px;
+    margin-right: 5px;
+}
+.hint__img {
+    width: 100%;
+    height: 100%;
+}
+.hint-item__title {
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 13.5px
+}
+.see-all-hint {
+    width: 100%;
+    display: flex;
+    margin: 7px 0;
+}
+.see-hint__link {
+    text-align: center;
+    width: 100%;
+    font-size: 13px;
+    margin: auto;
+}
 .drop-search {
     position: absolute;
     top: 100%;
@@ -267,7 +326,7 @@ header {
     width: 300px;
     height: 40px;
     display: block;
-    background-color: white;
+    background-color: #202020;
     border-top: 2px solid #f06500;
     border-radius: 2px;
     box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.25);
@@ -275,6 +334,7 @@ header {
     animation: fadeInZoom ease-in 0.3s;
     z-index: 1000;
     overflow: hidden;
+    margin-right: 10px;
 }
 
 .drop-search.hide {
@@ -286,6 +346,7 @@ header {
 
 .display-none {
     display: none;
+    
 }
 
 .drop-search>.search-input {
@@ -295,6 +356,8 @@ header {
     font-size: 16px;
     border: none;
     outline: none;
+    background-color:  #202020;
+    color: white;
 }
 
 /* Of film item */
@@ -541,17 +604,5 @@ footer {
 
     to {
         opacity: 0;
-    }
-}
-@media (max-width : 1023px) {
-
-    div.gutters-15:nth-child(4), div.gutters-15:nth-child(5){
-        display: none;
-    }
-}
-@media (max-width : 480px) {
-
-    div.gutters-15:nth-child(4){
-        display: flex;
     }
 }

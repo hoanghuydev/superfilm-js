@@ -62,13 +62,13 @@
                     renderHeader($('.grid.wide > .header'), '.home',listCategory)
                     renderCategoryMobile(listCategory, '.category__item--home')
                     renderInfoFilmPage($('.container > .film__info'),filmInfo)
-                    renderCategoryFilm($('.container > .related__films'), filmInfo.categories[1],5,true,"liên quan")
-                    // block scroll when loading
+                    renderCategoryFilm($('.container > .related__films'), filmInfo.categories[1],5,true,"liên quan",4,undefined)
+                    addSeeAll()
                     renderFooter($('.grid.wide > .footer'))
             
                 })
                 .catch((err) => {
-                    console.log(err);
+                    // window.location.href= 'error-404.html'
                 })
             hideLoader()
         }

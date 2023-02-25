@@ -66,11 +66,10 @@
                     renderCategoryMobile(listCategory, '.category__item--home')
                     renderWatchFilm($('.container > .watch-movie'),filmInfo,episode)
                     renderCategoryFilm($('.container > .related__films'), filmInfo.categories[1],5,true,"liên quan")
-                    // block scroll when loading
                     renderFooter($('.grid.wide > .footer'))
                 })
                 .catch((err) => {
-                    console.log(err);
+                    // window.location.href= 'error-404.html'
                 })
             hideLoader()
         }
