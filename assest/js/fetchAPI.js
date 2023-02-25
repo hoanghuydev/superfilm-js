@@ -1,4 +1,4 @@
-const domain = 'http://filmapi-env.eba-xjdcedf7.ap-southeast-1.elasticbeanstalk.com'
+const domain = 'https://filmapi-env.eba-xjdcedf7.ap-southeast-1.elasticbeanstalk.com'
 let valueFetch = []
 const getAPI = {
     allFilm : domain+ '/api/v1/films/all',
