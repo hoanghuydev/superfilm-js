@@ -7,7 +7,12 @@ function renderHeader(parentElement,currentPage,listCategory) {
     let headerString = `
     <header class="row">
         <div class="col category l-0 m-0 c-2"><i class="fa-solid fa-bars"></i></div>
-        <img src="assest/png/header-logo.png" alt="" class="col header__logo--img l-2 m-5 c-5">
+        <div class="col header__logo l-2 m-5 c-5">
+            <a href="index.html" class="header__logo--link">
+                <img src="assest/png/header-logo.png" alt="" class="header__logo--img ">
+            </a>
+        </div>
+        
         <div class="col navbar l-7 m-11 c-0">
             <ul class="navbar__list">
                 <a href="index.html" class="home navbar__item">Trang chủ</a>
@@ -21,7 +26,10 @@ function renderHeader(parentElement,currentPage,listCategory) {
         <div class="col search-icon l-0 m-1 c-2" onClick="event.cancelBubble = true; renderHeader.searchShow()"><i class="fa-solid fa-magnifying-glass"></i>
             <div class="drop-search hide" onclick="event.cancelBubble = true">
                 <input type="text" placeholder="Nhập vào đây để tìm kiếm..." class="search-input" autocomplete="off" onKeyDown="renderHeader.enterSearch(event)">
+                <div style="top: 100%; width : 100%; right: 0;" class="hint-search">
+                </div>
             </div>
+            
         </div>
         <div class="col l-3 m-0 c-0">
             <div class="header__search">
@@ -47,7 +55,8 @@ function renderHeader(parentElement,currentPage,listCategory) {
         $('.category-mobile-container').classList.toggle('show')
         $('.category-mobile__content').classList.toggle('show')
     }
-    renderHintItemForHeader()
+    renderHintItemForHeader($('#search-text'))
+    renderHintItemForHeader($('.search-input'))
     $('.header__search > i').onclick = function () {
         window.location.href = `category-movie.html?categoryID=1&titleSearch=${$("#search-text").value}`
     }
@@ -59,8 +68,8 @@ function renderHeader(parentElement,currentPage,listCategory) {
             }
         }
     }
-    function renderHintItemForHeader() {
-        const searchInput = $('#search-text')
+    function renderHintItemForHeader(searchInput) {
+        
         async function getHint() {
             if (searchInput.value.length>2){
                 
@@ -254,16 +263,17 @@ function renderSeperator(parentElement) {
 
 }
 async function renderCategoryFilm(parentElement,category,numItem,canEdit,editTitle,minItemFilms,valueSearch) {
+    
     var categoryListFilm = 0
     if (valueSearch) {
         categoryListFilm = valueSearch
     }  else {
         await fetch(getAPI.getCategories(category.id,0,'publishYear','decs',numItem)).then((value) => value.json())
         .then((value) => {categoryListFilm = value})
-    } 
+    }
     categoryListFilm = categoryListFilm.content
     var titleCategory = (canEdit)? editTitle:category.name
-    if (categoryListFilm.length > minItemFilms) {
+    if (categoryListFilm.length >= minItemFilms) {
 
         let categoryFilmString = `
         <div class="category-film">
@@ -281,7 +291,9 @@ async function renderCategoryFilm(parentElement,category,numItem,canEdit,editTit
         for (var film of categoryListFilm) {
             renderFilmItem($(`.${titleCategory.replaceAll(' ','-')}`),film)
         }
+       
     }
+    imagesLoaded($$('.film__poster--img'),hideLoader)
     
 }
 function renderPagination(parentElement) {

@@ -42,7 +42,7 @@
             <!-- render  footer-->
         </div>
     </div>
-
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
     <script src="assest/js/main.js"></script>
     <script src="assest/js/fetchAPI.js"></script>
     <script src="assest/js/render.js"></script>
@@ -61,7 +61,7 @@
                     renderHeader($('.grid.wide > .header'), '.home', listCategory)
                     renderCategoryMobile(listCategory, '.category__item--home')
                     for (var i in listCategory) {
-                        renderCategoryFilm($('.grid.wide > .films'), listCategory[i],5,false,undefined,4,undefined)
+                        renderCategoryFilm($('.grid.wide > .films'), listCategory[i],5,false,undefined,5,undefined)
                     }
                     renderFooter($('.grid.wide > .footer'))
                 })
@@ -70,6 +70,7 @@
                 })
                 
         hideLoader() 
+        console.log('hideLoader');
         
       
                 

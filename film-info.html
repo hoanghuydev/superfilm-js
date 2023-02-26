@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="assest/css/global.css">
     <link rel="stylesheet" href="assest/css/grid.css">
     <link rel="stylesheet" href="assest/css/responsive.css">
-    <title class="titlePage">Film info</title>
+    <title class="titlePage">Thông tin phim</title>
 </head>
 
 <body>
@@ -40,6 +40,7 @@
             <!-- render footer -->
         </div>
     </div>
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
     <script src="assest/js/main.js"></script>
     <script src="assest/js/fetchAPI.js"></script>
     <script src="assest/js/render.js"></script>
@@ -62,15 +63,14 @@
                     renderHeader($('.grid.wide > .header'), '.home',listCategory)
                     renderCategoryMobile(listCategory, '.category__item--home')
                     renderInfoFilmPage($('.container > .film__info'),filmInfo)
-                    renderCategoryFilm($('.container > .related__films'), filmInfo.categories[1],5,true,"liên quan",4,undefined)
-                    addSeeAll()
+                    renderCategoryFilm($('.container > .related__films'), filmInfo.categories[1],5,true,"liên quan",5,undefined)
                     renderFooter($('.grid.wide > .footer'))
             
                 })
                 .catch((err) => {
                     // window.location.href= 'error-404.html'
                 })
-            hideLoader()
+            
         }
         
     </script>

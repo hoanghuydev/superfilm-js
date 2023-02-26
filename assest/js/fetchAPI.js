@@ -19,7 +19,7 @@ const getAPI = {
         return domain +  `/api/v1/films/query?query=${query}&page=0&sortedBy=publicYear&director=decs&limit=${limit}`
     },
     getFilterItem : function (categoryId ,publicYear, page,sortedBy,direction,limit) {
-        return domain + `/api/v1/films/filter?categoryId=${categoryId}&publishYear=${publicYear}&page=${page}&sortedBy=${sortedBy}&direction=${direction}&limit=${limit}`
+        return domain + `/api/v1/films/filter?categoryId=${categoryId}&page=${page}&limit=${limit}&sortBy=${sortedBy}&direction=${direction}&publishYear=${publicYear}`
     },
     allActor : domain + '/api/v1/actors',
     allCountries : domain + '/api/v1/film-countries',

@@ -1,4 +1,5 @@
 function renderWatchFilm(parentElement,filmData,episode) {
+    $('.titlePage').innerText = filmData.title
     parentElement.innerHTML += `
     <iframe src="${filmData.sourceFilms[episode-1].url}" frameborder="0" class = "iframe-movie" allowfullscreen frameborder="0"></iframe>
     `

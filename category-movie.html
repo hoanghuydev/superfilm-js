@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="assest/css/global.css">
     <link rel="stylesheet" href="assest/css/grid.css">
     <link rel="stylesheet" href="assest/css/responsive.css">
-    <title class="titlePage">Category movie</title>
+    <title class="titlePage">Thể loại</title>
 </head>
 
 <body>
@@ -52,9 +52,9 @@
                             <div class="col l-4 m-4 c-4">
                                 <div class="select-sort">
                                     <select name="sort" id="sort-select">
-                                        <option value="0">-- Sắp xếp --</option>
+                                        <option value="">-- Sắp xếp --</option>
                                         <option value="title">Theo tên</option>
-                                        <option value="publicYear">Theo năm</option>
+                                        <option value="publishYear">Theo năm</option>
                                         
                                     </select>
                                 </div>
@@ -77,10 +77,12 @@
             <!-- render footer -->
         </div>
     </div>
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
     <script src="assest/js/main.js"></script>
     <script src="assest/js/fetchAPI.js"></script>
     <script src="assest/js/render.js"></script>
     <script src="assest/js/renderCategoryMovie.js"></script>
+    
     <script>
         start()
         async function start() {
@@ -102,28 +104,42 @@
                 .then((value) => {
                     const detailCategory = value[0]
                     const listCategory = value[1]
+                    $('.titlePage').innerText = detailCategory.name
                     renderHeader($('.grid.wide > .header'), '.home', listCategory)
                     renderCategoryMobile(listCategory, '.category__item--home')
                     if (titleSearch) {
-                        fetch(getAPI.getItemSearch(titleSearch,9999999)).then((value) => value.json())
+                        renderSearch()
+                       async function renderSearch() {
+                            await fetch(getAPI.getItemSearch(titleSearch,9999999)).then((value) => value.json())
                         .then((value) => {
                             renderCategoryFilm($('.container > .movie-of-category'), undefined, value.content.length,true , 'với từ khóa '+titleSearch,0,value)
                         })
-                        
+                        }
                     } else {
                         renderCategoryFilm($('.container > .movie-of-category'), detailCategory, 9999999, false, null,0)
                     }
                     
-                    renderSelectFilter($('#category-select',$('#year-select'),$('#select-sort')))
+                    renderSelectFilter($('#category-select'),$('#year-select'),$('#select-sort'),listCategory)
                     renderFooter($('.grid.wide > .footer'))
+                  
                     $('.btn-filter').onclick = function () {
-                fetch(getAPI.getFilterItem(($('#category-select').value)?Number($('#category-select').value):0,($('#year-select').value)?Number($('#year-select').value):0,0,($('#sort-select').value)?$('#sort-select').value:0,'decs',999999999))
+                fetch(getAPI.getFilterItem(($('#category-select').value)?Number($('#category-select').value):0,($('#year-select').value)?Number($('#year-select').value):0,0,($('#sort-select').value)?$('#sort-select').value:'','desc',999999999))
                 .then((value) => value.json())
                 .then((value) => {
-                    $('.movie-of-category').remove()
-                    for (var film of value) {
-                        renderFilmItem( $('.movie-of-category'),film)
+                   
+                    if ($('.movie-of-category > div')) {
+                        $('.movie-of-category > div').remove()
                     }
+                    
+                    if (value.content[0]) {
+                        for (var film of value.content) {
+                        $('.movie-of-category').innerHTML += `<div class="row"></div>`
+                        renderFilmItem( $('.movie-of-category > div'),film)
+                    }
+                    } else {
+                        $('.movie-of-category').innerHTML += `<div class="non-film-text">Hiện tại chưa có phim này</div>`
+                    }
+                    
                 })
                 
             }
@@ -131,7 +147,8 @@
                 .catch((err) => {
                     // window.location.href= 'error-404.html'
                 })
-            hideLoader()
+                
+            
             
         }
 
