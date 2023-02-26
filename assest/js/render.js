@@ -300,7 +300,9 @@ async function renderCategoryFilm(parentElement, category, numItem, canEdit, edi
         }
 
     } else {
-        $('.movie-of-category').innerHTML += `<div class="non-film-text">Hiện tại chưa có phim này</div>`
+        if ((window.location.href.includes('category-movie.html'))) {
+            $('.movie-of-category').innerHTML += `<div class="non-film-text">Hiện tại chưa có phim này</div>`
+        }
     }
     imagesLoaded($$('.film__poster--img'), function () {
         hideLoader()

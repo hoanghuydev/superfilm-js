@@ -29,6 +29,7 @@
 }
 .episode__number:hover {
     background-color: #d8620e;
+    border: #d8620e;
 }
 .title-movie {
     font-size: 20px;
@@ -43,6 +44,7 @@
 }
 .active {
     background-color: #d8620e;
+    border: #d8620e;
 }
 
 /* Tablet - PC low resolution */
