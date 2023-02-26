@@ -1,9 +1,9 @@
-function renderWatchFilm(parentElement,filmData,episode) {
+function renderWatchFilm(parentElement, filmData, episode) {
     $('.titlePage').innerText = filmData.title
     parentElement.innerHTML += `
-    <iframe src="${filmData.sourceFilms[episode-1].url}" frameborder="0" class = "iframe-movie" allowfullscreen frameborder="0"></iframe>
+    <iframe src="${filmData.sourceFilms[episode - 1].url}" frameborder="0" class = "iframe-movie" allowfullscreen frameborder="0"></iframe>
     `
-    if (filmData.sourceFilms.length>1) {
+    if (filmData.sourceFilms.length > 1) {
         parentElement.innerHTML += `
         <div class="episode-of-film">
              <div class="episode__title">Tập phim</div>
@@ -12,15 +12,14 @@ function renderWatchFilm(parentElement,filmData,episode) {
              </div>
         </div>
         `
-            for (var source of filmData.sourceFilms) {
-                $('.episode-container').innerHTML += `
+        for (var source of filmData.sourceFilms) {
+            $('.episode-container').innerHTML += `
                 <a href="watch-movie.html?filmID=${filmData.id}&episode=${source.episode}" class="episode__number">${source.episode}</a>
                 `
-            }
-            $$('.episode__number')[episode-1].classList.add('active')
-       
+        }
+        $$('.episode__number')[episode - 1].classList.add('active')
     }
-    parentElement.innerHTML +=  `
+    parentElement.innerHTML += `
     <div class="title-movie">${filmData.title}</div>
     <div class="content-movie">${filmData.content}</div>
     `
@@ -33,6 +32,6 @@ function renderWatchFilm(parentElement,filmData,episode) {
 
 function renderOptionSelector(parentElement, listOption) {
     for (var option of listOption) {
-        parentElement +=  `<option value="${listOption.id}">${listOption.name}</option>`
+        parentElement += `<option value="${listOption.id}">${listOption.name}</option>`
     }
 }

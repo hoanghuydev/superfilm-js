@@ -1,9 +1,9 @@
 // FOR HEADER
 // Render header
-let appendElementChild = function (parentElement,elementChildString) {
+let appendElementChild = function (parentElement, elementChildString) {
     parentElement.appendChild(new DOMParser().parseFromString(elementChildString, 'text/html').body.lastElementChild)
 }
-function renderHeader(parentElement,currentPage,listCategory) {
+function renderHeader(parentElement, currentPage, listCategory) {
     let headerString = `
     <header class="row">
         <div class="col category l-0 m-0 c-2"><i class="fa-solid fa-bars"></i></div>
@@ -18,7 +18,7 @@ function renderHeader(parentElement,currentPage,listCategory) {
                 <a href="index.html" class="home navbar__item">Trang chủ</a>
                 <a href="category-movie.html?categoryID=2" class="series-movie navbar__item">Phim bộ</a>
                 <a href="category-movie.html?categoryID=1" class="odd-movie navbar__item">Phim lẻ</a>
-                <a href class="shows navbar__item">TV Shows</a>
+                <a href="category-movie.html?categoryID=16" class="shows navbar__item">TV Shows</a>
                 <div class="nav-category navbar__item">Thể Loại
                 <div class="category-drop"></div></div>
             </ul>
@@ -26,7 +26,7 @@ function renderHeader(parentElement,currentPage,listCategory) {
         <div class="col search-icon l-0 m-1 c-2" onClick="event.cancelBubble = true; renderHeader.searchShow()"><i class="fa-solid fa-magnifying-glass"></i>
             <div class="drop-search hide" onclick="event.cancelBubble = true">
                 <input type="text" placeholder="Nhập vào đây để tìm kiếm..." class="search-input" autocomplete="off" onKeyDown="renderHeader.enterSearch(event)">
-                <div style="top: 100%; width : 100%; right: 0;" class="hint-search">
+                <div style="top: 100%; width : 100%; right: 0;" class="hint-search-mobile">
                 </div>
             </div>
             
@@ -42,51 +42,56 @@ function renderHeader(parentElement,currentPage,listCategory) {
         </div>
     </header>
     `
-    appendElementChild(parentElement,headerString)
-   
-    for (var category of listCategory ) {
-        appendElementChild($('.category-drop'),`<a href="category-movie.html?categoryID=${category.id}" class="the-loai__item">${category.name}</a>`)
+    appendElementChild(parentElement, headerString)
+
+    for (var category of listCategory) {
+        appendElementChild($('.category-drop'), `<a href="category-movie.html?categoryID=${category.id}" class="the-loai__item">${category.name}</a>`)
     }
     // Lighten Nav Item
-    renderSeperator(parentElement) 
+    renderSeperator(parentElement)
     $(currentPage).classList.add('white-text')
     // Category show
     $('header > .category').onclick = function () {
         $('.category-mobile-container').classList.toggle('show')
         $('.category-mobile__content').classList.toggle('show')
     }
-    renderHintItemForHeader($('#search-text'))
-    renderHintItemForHeader($('.search-input'))
+    renderHintItemForHeader($('#search-text'), $('.hint-search'), '.hint-search > div')
+    renderHintItemForHeader($('.search-input'), $('.hint-search-mobile'), '.hint-search-mobile > div')
     $('.header__search > i').onclick = function () {
-        window.location.href = `category-movie.html?categoryID=1&titleSearch=${$("#search-text").value}`
+        if (!(inputElement.value == '')) {
+            window.location.href = `category-movie.html?categoryID=1&titleSearch=${$("#search-text").value}`
+        }
     }
     searchClick($('#search-text'))
     function searchClick(inputElement) {
-        inputElement.onkeydown =  function (e) {
-            if (e.key === 'Enter' || e.keyCode === 13) {
-                window.location.href = `category-movie.html?categoryID=1&titleSearch=${$("#search-text").value}`
+        inputElement.onkeydown = function (e) {
+            if (!(inputElement.value == '')) {
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                    window.location.href = `category-movie.html?categoryID=1&titleSearch=${$("#search-text").value}`
+                }
             }
+
         }
     }
-    function renderHintItemForHeader(searchInput) {
-        
+    function renderHintItemForHeader(searchInput, hintSearch, childHintSearchString) {
+
         async function getHint() {
-            if (searchInput.value.length>2){
-                
-                await fetch(getAPI.getItemSearch(searchInput.value,6))
-                .then((value) => value.json())
-                .then((value) => {
-                    const listHintFilm = value.content
-                    removeAllHint()
-                    for (var film of listHintFilm) {
-                        renderHint(film)
-                    }
-                })
+            if (searchInput.value.length > 2) {
+
+                await fetch(getAPI.getItemSearch(searchInput.value, 6))
+                    .then((value) => value.json())
+                    .then((value) => {
+                        const listHintFilm = value.content
+                        removeAllHint()
+                        for (var film of listHintFilm) {
+                            renderHint(film)
+                        }
+                    })
             } else {
-                   removeAllHint()
-                }
+                removeAllHint()
+            }
             function renderHint(value) {
-                $(".hint-search").innerHTML += `
+                hintSearch.innerHTML += `
                 <div class="hint__item">
                 <a href="film-info.html?filmID=${value.id}" class="hint__item-link">
                     <div class="hint-item__img">
@@ -100,53 +105,53 @@ function renderHeader(parentElement,currentPage,listCategory) {
             <div/>
             `
             }
-           
+
         }
         function removeAllHint() {
-            if ($(".hint-search > div")) {
-                for (var hintItem of $$(".hint-search > div")) {
+            if ($(childHintSearchString)) {
+                for (var hintItem of $$(childHintSearchString)) {
                     hintItem.remove()
                 }
             }
         }
-        
+
         searchInput.onfocus = function () {
-            $('.hint-search').classList.remove('display-none')
+            hintSearch.classList.remove('display-none')
             searchInput.onkeyup = function () {
                 removeAllHint()
                 if (waitHint) {
                     clearTimeout(waitHint)
                     waitHint = undefined
                 }
-                waitHint = setTimeout(getHint,500)
-               
+                waitHint = setTimeout(getHint, 500)
+
             }
         }
         searchInput.onblur = function () {
-            
-           setTimeout(() => {
-            $('.hint-search').classList.add('display-none')
-            
-           }, 100);
+
+            setTimeout(() => {
+                hintSearch.classList.add('display-none')
+
+            }, 100);
         }
-        
-        
-    
+
+
+
     }
-    
+
 }
 
-function renderCategoryMobile(listCategory,currentPage) {
+function renderCategoryMobile(listCategory, currentPage) {
     $('.category-mobile-container').innerHTML = `
     <div class="category-mobile">
         <div class="category-mobile__content">
             <a href="index.html" class="category__item--home">Trang chủ</a>
-            <a href class="category__item--tv">TV Shows</a>
+            <a href="category-movie.html?categoryID=16" class="category__item--tv">TV Shows</a>
         </div>
         <div class="exit-category"></div>
     </div>
     `
-    for (var category of listCategory ) {
+    for (var category of listCategory) {
         $('.category-mobile__content').innerHTML += `<a href="category-movie.html?categoryID=${category.id}" class="category__item--${category.code}">${category.name}</a>`
     }
     $(currentPage).classList.add('current-category-item')
@@ -170,12 +175,15 @@ renderHeader.searchShow = function () {
 }
 // Enter search click()
 renderHeader.enterSearch = function (e) {
-    if (e.keyCode == 13) {
-        window.location.href = `category-movie.html?categoryID=1&titleSearch=${$(".search-input").value}`
+    window.location.href = `category-movie.html?categoryID=1&titleSearch=${$("#search-text").value}`
+    if (!($('.search-input').value == '')) {
+        if (e.keyCode == 13) {
+            window.location.href = `category-movie.html?categoryID=1&titleSearch=${$(".search-input").value}`
+        }
     }
 }
 // Render film item
-function renderFilmItem(parentElement,filmInfo) {
+function renderFilmItem(parentElement, filmInfo) {
     parentElement.innerHTML += `
     <div class="col gutters-15 l-2-4 m-4 c-4 s-6">
         <div class="film__item">
@@ -239,7 +247,7 @@ function renderFooter(parentElement) {
         </div>
     </footer>
     `
-    appendElementChild(parentElement,footerString)
+    appendElementChild(parentElement, footerString)
 }
 // Render loader
 function renderLoader(parentElement) {
@@ -255,46 +263,50 @@ function renderLoader(parentElement) {
         </div>
     </div>
     `
-    appendElementChild(parentElement,loaderString)
-   parentElement.style.overflow = 'hidden'
+    appendElementChild(parentElement, loaderString)
+    parentElement.style.overflow = 'hidden'
 }
 function renderSeperator(parentElement) {
-    parentElement.innerHTML +=`<div class="seperator"></div>`
+    parentElement.innerHTML += `<div class="seperator"></div>`
 
 }
-async function renderCategoryFilm(parentElement,category,numItem,canEdit,editTitle,minItemFilms,valueSearch) {
-    
+async function renderCategoryFilm(parentElement, category, numItem, canEdit, editTitle, minItemFilms, valueSearch) {
+
     var categoryListFilm = 0
     if (valueSearch) {
         categoryListFilm = valueSearch
-    }  else {
-        await fetch(getAPI.getCategories(category.id,0,'publishYear','decs',numItem)).then((value) => value.json())
-        .then((value) => {categoryListFilm = value})
+    } else {
+        await fetch(getAPI.getCategories(category.id, 0, 'publishYear', 'decs', numItem)).then((value) => value.json())
+            .then((value) => { categoryListFilm = value })
     }
     categoryListFilm = categoryListFilm.content
-    var titleCategory = (canEdit)? editTitle:category.name
+    var titleCategory = (canEdit) ? editTitle : category.name
     if (categoryListFilm.length >= minItemFilms) {
-
         let categoryFilmString = `
         <div class="category-film">
             <div class="category__header">
                 <div class="category__title">Phim ${titleCategory}</div>
-                ${(window.location.href.includes('category-movie.html'))?"":`<a href="category-movie.html?categoryID=${category.id}" class="see-all">Xem thêm</a>`}
+                ${(window.location.href.includes('category-movie.html')) ? "" : `<a href="category-movie.html?categoryID=${category.id}" class="see-all">Xem thêm</a>`}
             </div>
             <div class="category__container">
-                <div class="row ${titleCategory.replaceAll(' ','-')}">
+                <div class="row ${titleCategory.replaceAll(' ', '-')}">
                 </div>
             </div>
         </div>
         `
         parentElement.innerHTML += categoryFilmString
         for (var film of categoryListFilm) {
-            renderFilmItem($(`.${titleCategory.replaceAll(' ','-')}`),film)
+            renderFilmItem($(`.${titleCategory.replaceAll(' ', '-')}`), film)
         }
-       
+
+    } else {
+        $('.movie-of-category').innerHTML += `<div class="non-film-text">Hiện tại chưa có phim này</div>`
     }
-    imagesLoaded($$('.film__poster--img'),hideLoader)
-    
+    imagesLoaded($$('.film__poster--img'), function () {
+        hideLoader()
+        console.log('imageLoader true')
+    })
+
 }
 function renderPagination(parentElement) {
     parentElement.innerHTML += `
@@ -314,7 +326,7 @@ function hideLoader() {
     if ($('.loader')) {
         setTimeout(() => {
             $('.loader').style.display = 'none'
-            
+
         }, 500);
     }
     $('body').style.overflow = 'auto'

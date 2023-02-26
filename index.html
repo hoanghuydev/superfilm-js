@@ -36,7 +36,7 @@
         </div>
         <div class="films">
             <!-- render films -->
-            
+
         </div>
         <div class="footer">
             <!-- render  footer-->
@@ -50,7 +50,6 @@
         start()
         async function start() {
             renderLoader($('body'))
-            
             await Promise.all([
                 fetch(getAPI.allActor).then((value) => value.json()),
                 fetch(getAPI.allCategory).then((value) => value.json()),
@@ -61,22 +60,14 @@
                     renderHeader($('.grid.wide > .header'), '.home', listCategory)
                     renderCategoryMobile(listCategory, '.category__item--home')
                     for (var i in listCategory) {
-                        renderCategoryFilm($('.grid.wide > .films'), listCategory[i],5,false,undefined,5,undefined)
+                        renderCategoryFilm($('.grid.wide > .films'), listCategory[i], 5, false, undefined, 5, undefined)
                     }
                     renderFooter($('.grid.wide > .footer'))
                 })
                 .catch((err) => {
                     // window.location.href= 'error-404.html'
                 })
-                
-        hideLoader() 
-        console.log('hideLoader');
-        
-      
-                
-}
-
-
+        }
     </script>
 </body>
 

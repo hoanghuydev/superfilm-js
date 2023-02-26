@@ -55,24 +55,20 @@
             await Promise.all([
                 fetch(getAPI.detailFilm(filmID)).then((value) => value.json()),
                 fetch(getAPI.allCategory).then((value) => value.json()),
-
             ])
                 .then((value) => {
                     const filmInfo = value[0]
                     const listCategory = value[1]
-                    renderHeader($('.grid.wide > .header'), '.home',listCategory)
+                    renderHeader($('.grid.wide > .header'), '.home', listCategory)
                     renderCategoryMobile(listCategory, '.category__item--home')
-                    renderInfoFilmPage($('.container > .film__info'),filmInfo)
-                    renderCategoryFilm($('.container > .related__films'), filmInfo.categories[1],5,true,"liên quan",5,undefined)
+                    renderInfoFilmPage($('.container > .film__info'), filmInfo)
+                    renderCategoryFilm($('.container > .related__films'), filmInfo.categories[1], 5, true, "liên quan", 5, undefined)
                     renderFooter($('.grid.wide > .footer'))
-            
                 })
                 .catch((err) => {
                     // window.location.href= 'error-404.html'
                 })
-            
         }
-        
     </script>
 </body>
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,9 +20,10 @@
     <link rel="stylesheet" href="assest/css/responsive.css">
     <title class="titlePage">Xem phim</title>
 </head>
+
 <body>
     <div class="category-mobile-container">
-       
+
     </div>
     <div class="grid wide">
         <div class="header">
@@ -30,9 +32,9 @@
         <div class="container">
             <div class="watch-movie">
                 <!-- render info film -->
-               
 
-                
+
+
             </div>
             <div class="related__films">
                 <!-- render related films -->
@@ -58,15 +60,14 @@
             await Promise.all([
                 fetch(getAPI.detailFilm(filmID)).then((value) => value.json()),
                 fetch(getAPI.allCategory).then((value) => value.json()),
-
             ])
                 .then((value) => {
                     const filmInfo = value[0]
                     const listCategory = value[1]
-                    renderHeader($('.grid.wide > .header'), '.home',listCategory)
+                    renderHeader($('.grid.wide > .header'), '.home', listCategory)
                     renderCategoryMobile(listCategory, '.category__item--home')
-                    renderWatchFilm($('.container > .watch-movie'),filmInfo,episode)
-                    renderCategoryFilm($('.container > .related__films'), filmInfo.categories[1],5,true,"liên quan",5)
+                    renderWatchFilm($('.container > .watch-movie'), filmInfo, episode)
+                    renderCategoryFilm($('.container > .related__films'), filmInfo.categories[1], 5, true, "liên quan", 5)
                     renderFooter($('.grid.wide > .footer'))
                 })
                 .catch((err) => {
@@ -75,4 +76,5 @@
         }
     </script>
 </body>
+
 </html>

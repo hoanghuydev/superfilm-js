@@ -38,7 +38,7 @@
                                 <div class="select-category">
                                     <select name="category" id="category-select">
                                         <option value="0">-- Danh mục --</option>
-                                        
+
                                     </select>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
                                         <option value="">-- Sắp xếp --</option>
                                         <option value="title">Theo tên</option>
                                         <option value="publishYear">Theo năm</option>
-                                        
+
                                     </select>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
     <script src="assest/js/fetchAPI.js"></script>
     <script src="assest/js/render.js"></script>
     <script src="assest/js/renderCategoryMovie.js"></script>
-    
+
     <script>
         start()
         async function start() {
@@ -109,47 +109,42 @@
                     renderCategoryMobile(listCategory, '.category__item--home')
                     if (titleSearch) {
                         renderSearch()
-                       async function renderSearch() {
-                            await fetch(getAPI.getItemSearch(titleSearch,9999999)).then((value) => value.json())
-                        .then((value) => {
-                            renderCategoryFilm($('.container > .movie-of-category'), undefined, value.content.length,true , 'với từ khóa '+titleSearch,0,value)
-                        })
+                        async function renderSearch() {
+                            await fetch(getAPI.getItemSearch(titleSearch, 9999999)).then((value) => value.json())
+                                .then((value) => {
+                                    renderCategoryFilm($('.container > .movie-of-category'), undefined, value.content.length, true, 'với từ khóa ' + titleSearch, 1, value)
+                                })
                         }
                     } else {
-                        renderCategoryFilm($('.container > .movie-of-category'), detailCategory, 9999999, false, null,0)
+                        renderCategoryFilm($('.container > .movie-of-category'), detailCategory, 9999999, false, null, 1)
                     }
-                    
-                    renderSelectFilter($('#category-select'),$('#year-select'),$('#select-sort'),listCategory)
+
+                    renderSelectFilter($('#category-select'), $('#year-select'), $('#select-sort'), listCategory)
                     renderFooter($('.grid.wide > .footer'))
-                  
+
                     $('.btn-filter').onclick = function () {
-                fetch(getAPI.getFilterItem(($('#category-select').value)?Number($('#category-select').value):0,($('#year-select').value)?Number($('#year-select').value):0,0,($('#sort-select').value)?$('#sort-select').value:'','desc',999999999))
-                .then((value) => value.json())
-                .then((value) => {
-                   
-                    if ($('.movie-of-category > div')) {
-                        $('.movie-of-category > div').remove()
+                        fetch(getAPI.getFilterItem(($('#category-select').value) ? Number($('#category-select').value) : 0, ($('#year-select').value) ? Number($('#year-select').value) : 0, 0, ($('#sort-select').value) ? $('#sort-select').value : '', 'desc', 999999999))
+                            .then((value) => value.json())
+                            .then((value) => {
+
+                                if ($('.movie-of-category > div')) {
+                                    $('.movie-of-category > div').remove()
+                                }
+
+                                if (value.content[0]) {
+                                    for (var film of value.content) {
+                                        $('.movie-of-category').innerHTML += `<div class="row"></div>`
+                                        renderFilmItem($('.movie-of-category > div'), film)
+                                    }
+                                } else {
+                                    $('.movie-of-category').innerHTML += `<div class="non-film-text">Hiện tại chưa có phim này</div>`
+                                }
+                            })
                     }
-                    
-                    if (value.content[0]) {
-                        for (var film of value.content) {
-                        $('.movie-of-category').innerHTML += `<div class="row"></div>`
-                        renderFilmItem( $('.movie-of-category > div'),film)
-                    }
-                    } else {
-                        $('.movie-of-category').innerHTML += `<div class="non-film-text">Hiện tại chưa có phim này</div>`
-                    }
-                    
-                })
-                
-            }
                 })
                 .catch((err) => {
                     // window.location.href= 'error-404.html'
                 })
-                
-            
-            
         }
 
     </script>

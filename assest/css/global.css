@@ -259,11 +259,6 @@ header {
     border: none;
     outline: none;
 }
-.header__search > input:focus .hint-search{
-    background-color:  white !important;
-    /* display: flex !important; */
-}
-
 
 .header__search>i {
     line-height: 35px;
@@ -276,6 +271,18 @@ header {
 .header__search>i:hover {
     cursor: pointer;
     color: #F06500;
+}
+.hint-search-mobile {
+    z-index: 100;
+    position: absolute;
+    top: 101%;
+    left: 0;
+    right: 0;
+    overflow: auto;
+    background-color: #202020;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
 }
 .hint-search {
     z-index: 100;
