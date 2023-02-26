@@ -175,7 +175,6 @@ renderHeader.searchShow = function () {
 }
 // Enter search click()
 renderHeader.enterSearch = function (e) {
-    window.location.href = `category-movie.html?categoryID=1&titleSearch=${$("#search-text").value}`
     if (!($('.search-input').value == '')) {
         if (e.keyCode == 13) {
             window.location.href = `category-movie.html?categoryID=1&titleSearch=${$(".search-input").value}`
